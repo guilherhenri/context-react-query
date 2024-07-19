@@ -8,7 +8,7 @@ export const api = axios.create({
   baseURL: env.VITE_API_URL,
   withCredentials: true,
   headers: {
-    Authorization: `Bearer ${cookies.get('srbanco.token')}`,
+    Authorization: `Bearer ${cookies.get('token')}`,
   },
 })
 
@@ -41,7 +41,7 @@ api.interceptors.response.use(
 
           refreshToken()
             .then(({ token }) => {
-              cookies.set('srbanco.token', token, {
+              cookies.set('token', token, {
                 expires: 30, // 30 days
                 path: '/',
               })
@@ -73,8 +73,8 @@ api.interceptors.response.use(
           })
         })
       } else {
-        cookies.remove('srbanco.token')
-        cookies.remove('srbanco.refreshToken')
+        cookies.remove('token')
+        cookies.remove('refreshToken')
       }
     }
 
