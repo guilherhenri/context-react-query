@@ -34,7 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>()
   const isAuthenticated = !!user
 
-  const token = cookies.get('srbanco.token')
+  const token = cookies.get('token')
 
   const { mutateAsync: authenticateFn } = useMutation({
     mutationFn: signIn,
@@ -48,8 +48,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     if (isError || !token) {
-      cookies.remove('srbanco.token')
-      cookies.remove('srbanco.refreshToken')
+      cookies.remove('token')
+      cookies.remove('refreshToken')
 
       setUser(undefined)
     } else {
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user: { name, role },
     } = await authenticateFn({ email, password, cpf })
 
-    cookies.set('srbanco.token', token, {
+    cookies.set('token', token, {
       expires: 30, // 30 days
       path: '/',
     })
